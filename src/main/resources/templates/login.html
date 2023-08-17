@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+
+    <title>Login</title>
+</head>
+
+<body class="pt-4"
+      style="display:flex; align-items: start; box-sizing: border-box; background: #f8f9fa">
+<main class="w-100 form-signin">
+    <form class="form-signin" method="post" th:action="@{/login}"
+          style="width: 100%; max-width: 320px; padding:15px; margin: auto; box-sizing: border-box">
+        <h1 class="h3 mb-3 font-weight-bold">Please sign in</h1>
+        <label for="inputUsername" class="sr-only">Username</label>
+        <input type="text" name="username" id="inputUsername" class="form-control" placeholder="Username" required
+               autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <button class="btn btn-lg btn-primary btn-block mt-2" type="submit">Sign in</button>
+    </form>
+</main>
+
+</body>
+</html>

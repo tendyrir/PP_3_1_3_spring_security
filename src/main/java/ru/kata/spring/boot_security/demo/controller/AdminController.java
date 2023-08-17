@@ -31,16 +31,19 @@ public class AdminController {
     }
 
     @GetMapping
-    public String showAllUsers(Model model) {
+    public String showAllUsers(Model model, Principal principal) {
+        model.addAttribute("user", userService.findByUsername(principal.getName()));
         model.addAttribute("users", userService.getAllUsers());
+        model.addAttribute("roles", roleService.getRoles());
+        model.addAttribute("newUser", new User());
         return "admin";
     }
 
-    @GetMapping("/new")
-    public String newUser(@ModelAttribute User user, Model model) {
-        model.addAttribute("listRoles", roleService.getRoles());
-        return "new";
-    }
+//    @GetMapping("/new")
+//    public String newUser(@ModelAttribute User user, Model model) {
+//        model.addAttribute("listRoles", roleService.getRoles());
+//        return "new";
+//    }
 
     @GetMapping("/user/{id}")
     public String showUser(@PathVariable Long id, Model model) {
@@ -60,12 +63,12 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/edit/{id}")
-    public String updateUserForm(@PathVariable Long id, Model model, Model roles) {
-        roles.addAttribute("listRoles", roleService.getRoles());
-        model.addAttribute("user", userService.getUserById(id).get());
-        return "edit";
-    }
+//    @GetMapping("/edit/{id}")
+//    public String updateUserForm(@PathVariable Long id, Model model, Model roles) {
+//        roles.addAttribute("listRoles", roleService.getRoles());
+//        model.addAttribute("user", userService.getUserById(id).get());
+//        return "edit";
+//    }
 
     @PatchMapping("/edit/{id}")
     public String updateUser(@ModelAttribute User user, @PathVariable Long id) {
