@@ -13,15 +13,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import java.util.ArrayList;
+import javax.persistence.UniqueConstraint;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 
 @Entity
-@Table(name = "users")
+@Table(name = "users",
+        uniqueConstraints =
+        @UniqueConstraint(columnNames = {"id", "username", "email"})
+)
 public class User implements UserDetails {
 
     @Id
@@ -35,6 +36,9 @@ public class User implements UserDetails {
     @Column(name = "surname")
     private String surname;
 
+    @Column(name = "age")
+    private Integer age;
+
     @Column(name = "email")
     private String email;
 
@@ -47,15 +51,16 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Set<Role> roles = new HashSet<>();
+    private Collection<Role> roles;
 
 
     public User() {
     }
 
-    public User(String firstName, String lastName, String email, String password) {
-        this.username = firstName;
-        this.surname = lastName;
+    public User(String username, String surname, Integer age, String email, String password) {
+        this.username = username;
+        this.surname = surname;
+        this.age = age;
         this.email = email;
         this.password = password;
     }
@@ -80,6 +85,14 @@ public class User implements UserDetails {
         this.surname = surname;
     }
 
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -92,21 +105,12 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public Set<Role> getRoles() {
+    public Collection<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(Collection<Role> roles) {
         this.roles = roles;
-    }
-
-    public String rolesToString() {
-        StringBuilder sb = new StringBuilder();
-        Collection<Role> roles = getRoles();
-        roles.forEach(n -> sb
-                .append(n.toString().substring(5))
-                .append(", "));
-        return sb.deleteCharAt(sb.length() - 2).toString().toLowerCase();
     }
 
     @Override
@@ -161,16 +165,17 @@ public class User implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id.equals(user.id) &&
-                username.equals(user.username) &&
-                Objects.equals(surname, user.surname) &&
-                Objects.equals(email, user.email) &&
-                password.equals(user.password) &&
-                roles.equals(user.roles);
+        return Objects.equals(id, user.id)
+                && Objects.equals(username, user.username)
+                && Objects.equals(surname, user.surname)
+                && Objects.equals(age, user.age)
+                && Objects.equals(email, user.email)
+                && Objects.equals(password, user.password)
+                && Objects.equals(roles, user.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, surname, email, password, roles);
+        return Objects.hash(id, username, surname, age, email, password, roles);
     }
 }
