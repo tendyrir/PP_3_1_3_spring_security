@@ -41,7 +41,7 @@ public class AdminController {
 
     @GetMapping("/user/{id}")
     public String showUser(@PathVariable Long id, Model model) {
-        model.addAttribute("user", userService.getUserById(id).get());
+        model.addAttribute("user", userService.getUserById(id));
         return "user";
     }
 

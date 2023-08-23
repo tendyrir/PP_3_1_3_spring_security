@@ -12,11 +12,11 @@ public interface UserService {
 
     List<User> getAllUsers();
 
-    void saveUser(User user);
+    User saveUser(User user);
 
-    Optional<User> getUserById(Long id);
+    User getUserById(Long id);
 
-    void updateUser(Long userId, User updatedUser);
+    User updateUser(Long userId, User updatedUser);
 
     void deleteUser(Long id);
 
